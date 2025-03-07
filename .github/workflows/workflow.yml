@@ -31,7 +31,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install flake8 pytest
+          pip install flake8 coverage
           pip install -r requirements.txt
 
       - name: Lint with flake8
@@ -44,6 +44,18 @@ jobs:
           cd ../
           flake8 . --exit-zero --max-complexity=10 --statistics
 
-      - name: Test with pytest
+      - name: Run tests
         run: |
-          pytest
+          python manage.py test -v2
+
+      - name: Generate and display coverage report in console
+        run: |
+          coverage run --source='.' manage.py test -v2
+          coverage report
+
+      - name: Upload Python code as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: python-source
+          path: |
+            **/*.py
