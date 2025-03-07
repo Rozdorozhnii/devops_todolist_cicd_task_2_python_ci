@@ -1,0 +1,17 @@
+name: todoapp-deployment
+run-name: ${{ github.actor }} - ${{ github.ref_name }}
+
+on:
+  push:
+    branches: ["main", "develop"]
+  pull_request:
+    branches: ["main"]
+
+  workflow_dispatch:
+
+jobs:
+  python-ci:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
